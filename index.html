@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Александр Охрименко</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --accent1: #a78bfa;
+      --accent2: #38bdf8;
+      --accent3: #f472b6;
+      --text: #e2e8f0;
+      --muted: #64748b;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Фоновые частицы ── */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-orb-1 {
+      width: 600px; height: 600px;
+      background: var(--accent1);
+      top: -150px; left: -200px;
+      animation: drift1 18s ease-in-out infinite alternate;
+    }
+    .bg-orb-2 {
+      width: 500px; height: 500px;
+      background: var(--accent2);
+      bottom: -100px; right: -150px;
+      animation: drift2 22s ease-in-out infinite alternate;
+    }
+    .bg-orb-3 {
+      width: 300px; height: 300px;
+      background: var(--accent3);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: drift3 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift1 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(60px, 40px) scale(1.1); }
+    }
+    @keyframes drift2 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-50px, -30px) scale(1.15); }
+    }
+    @keyframes drift3 {
+      from { transform: translate(-50%, -50%) scale(1); }
+      to   { transform: translate(-48%, -52%) scale(1.2); }
+    }
+
+    /* ── Карточка ── */
+    .card {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 56px 48px 48px;
+      max-width: 560px;
+      width: 90%;
+    }
+
+    /* ── Аватар-заглушка ── */
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+      margin-bottom: 32px;
+      box-shadow:
+        0 0 0 3px #0a0a0a,
+        0 0 0 5px rgba(167,139,250,0.4),
+        0 0 40px rgba(167,139,250,0.25);
+      animation: avatar-pulse 4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes avatar-pulse {
+      0%, 100% { box-shadow: 0 0 0 3px #0a0a0a, 0 0 0 5px rgba(167,139,250,0.4), 0 0 40px rgba(167,139,250,0.2); }
+      50%       { box-shadow: 0 0 0 3px #0a0a0a, 0 0 0 5px rgba(167,139,250,0.7), 0 0 70px rgba(167,139,250,0.4); }
+    }
+
+    /* ── Имя ── */
+    .name {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200%;
+      animation: gradient-shift 6s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 20px rgba(167,139,250,0.45));
+      margin-bottom: 12px;
+    }
+
+    @keyframes gradient-shift {
+      from { background-position: 0%; }
+      to   { background-position: 100%; }
+    }
+
+    /* ── Специализация ── */
+    .role {
+      font-size: 1.05rem;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 36px;
+    }
+
+    /* ── Разделитель ── */
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border-radius: 2px;
+      margin-bottom: 36px;
+      opacity: 0.6;
+    }
+
+    /* ── Соцсети ── */
+    .socials {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      text-decoration: none;
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .social-link svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .social-link:hover {
+      transform: translateY(-5px) scale(1.08);
+      background: rgba(167,139,250,0.12);
+      border-color: rgba(167,139,250,0.4);
+      color: var(--accent1);
+      box-shadow: 0 8px 30px rgba(167,139,250,0.25);
+    }
+
+    .social-link.tg:hover  { background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.4); color: var(--accent2); box-shadow: 0 8px 30px rgba(56,189,248,0.25); }
+    .social-link.inst:hover { background: rgba(244,114,182,0.12); border-color: rgba(244,114,182,0.4); color: var(--accent3); box-shadow: 0 8px 30px rgba(244,114,182,0.25); }
+    .social-link.yt:hover  { background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.4); color: #f87171; box-shadow: 0 8px 30px rgba(248,113,113,0.25); }
+
+    /* ── CTA-кнопка ── */
+    .cta {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 24px rgba(167,139,250,0.35);
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .cta:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 40px rgba(167,139,250,0.5); }
+    .cta:hover::before { opacity: 1; }
+    .cta:active { transform: translateY(0) scale(0.98); }
+
+    /* пульс вокруг кнопки */
+    .cta-wrap {
+      position: relative;
+    }
+    .cta-wrap::before, .cta-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 56px;
+      border: 1.5px solid rgba(167,139,250,0.35);
+      animation: ring-pulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .cta-wrap::after {
+      inset: -12px;
+      border-color: rgba(167,139,250,0.18);
+      animation-delay: 0.6s;
+    }
+
+    @keyframes ring-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0; transform: scale(1.08); }
+    }
+
+    .cta svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── Нижняя метка ── */
+    .footer-label {
+      margin-top: 48px;
+      font-size: 0.75rem;
+      color: rgba(100,116,139,0.5);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    /* ── Адаптив ── */
+    @media (max-width: 480px) {
+      .card { padding: 40px 24px 36px; }
+      .avatar { width: 90px; height: 90px; font-size: 34px; }
+      .social-link { width: 46px; height: 46px; border-radius: 12px; }
+      .cta { padding: 14px 28px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Фоновые орбы -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <div class="card">
+
+    <!-- Аватар -->
+    <div class="avatar">АО</div>
+
+    <!-- Имя -->
+    <h1 class="name">Александр Охрименко</h1>
+
+    <!-- Специализация -->
+    <p class="role">Продюсер онлайн-школ</p>
+
+    <div class="divider"></div>
+
+    <!-- Соцсети -->
+    <div class="socials">
+
+      <!-- Telegram -->
+      <a class="social-link tg" href="https://t.me/okhrimenko_alexander" target="_blank" rel="noopener" title="Telegram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+      </a>
+
+      <!-- Instagram -->
+      <a class="social-link inst" href="#" target="_blank" rel="noopener" title="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+      </a>
+
+      <!-- YouTube -->
+      <a class="social-link yt" href="#" target="_blank" rel="noopener" title="YouTube">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <!-- CTA кнопка -->
+    <div class="cta-wrap">
+      <a class="cta" href="https://t.me/okhrimenko_alexander" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        Написать мне
+      </a>
+    </div>
+
+    <p class="footer-label">продюсер · онлайн-образование</p>
+
+  </div>
+
+</body>
+</html>
